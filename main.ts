@@ -22,7 +22,9 @@ function createWindow() {
     x: 0,
     y: 0,
     width: size.width,
-    height: size.height
+    height: size.height,
+    show: false,
+    center: true
   });
 
   if (serve) {
@@ -36,6 +38,10 @@ function createWindow() {
       slashes: true
     }));
   }
+
+  win.once('ready-to-show', () => {
+    win.show();
+  });
 
   win.webContents.openDevTools();
 

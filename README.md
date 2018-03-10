@@ -13,13 +13,13 @@ Currently runs with:
 Clone this repository locally :
 
 ``` bash
-git clone {URL}
+git clone https://github.com/pheliperocha/wifilookup
 ```
 
 Go into the repository
 
 ``` bash
-cd {folder}
+cd wifilookup
 ```
 
 Install dependencies with npm :

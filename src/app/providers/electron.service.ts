@@ -12,6 +12,11 @@ export class ElectronService {
   defaultIPGateway: string;
   private nmap: ChildProcess;
 
+  public gatewayRegex = /(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/g;
+  public ipv4Regex = new RegExp(/([0-9]{1,3}\.){3}[0-9]{1,3}(([0-9]|[1-2][0-9]|3[0-2]))?/g);
+  public macRegex = new RegExp(/([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})/g);
+  public deviceNameRegex = new RegExp(/\([a-zA-Z][\S]+(([\s])|([a-zA-Z]+)|\.|,)+\)/g);
+
   constructor() {
     if (this.isElectron()) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
@@ -28,7 +33,7 @@ export class ElectronService {
   private getDefaultIPGateway() {
     let data = this.childProcess.execSync('WMIC NICConfig where IPEnabled="True" get DefaultIPGateway /value | find "I"').toString();
 
-    let ip = data.match(/(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/g);
+    let ip = data.match(this.gatewayRegex);
     this.defaultIPGateway = ip[0];
   }
 
@@ -50,6 +55,44 @@ export class ElectronService {
       console.log('Error =======');
       console.log(data);
     });
+  }
+
+  public mockScanNetwork() {
+    const result = "Nmap scan report for 192.168.1.1\n" +
+      "Host is up (0.0020s latency).\n" +
+      "MAC Address: E4:18:6B:12:90:EE (ZyXEL Communications)\n" +
+      "Nmap scan report for 192.168.1.3\n" +
+      "Host is up (1.3s latency).\n" +
+      "MAC Address: CC:C3:EA:4E:EC:E6 (Motorola Mobility, a Lenovo Company)\n" +
+      "Nmap scan report for 192.168.1.5\n" +
+      "Host is up (0.077s latency).\n" +
+      "MAC Address: 6C:AD:F8:54:29:52 (AzureWave Technology)\n" +
+      "Nmap scan report for 192.168.1.8\n" +
+      "Host is up (0.25s latency).\n" +
+      "MAC Address: D4:63:C6:51:C2:C6 (Motorola Mobility, a Lenovo Company)\n" +
+      "Nmap scan report for 192.168.1.10\n" +
+      "Host is up (0.23s latency).\n" +
+      "MAC Address: 74:E5:43:DB:B5:6F (Liteon Technology)\n" +
+      "Nmap scan report for 192.168.1.12\n" +
+      "Host is up (0.33s latency).\n" +
+      "MAC Address: 90:FB:A6:75:A3:33 (Hon Hai Precision Ind.)\n" +
+      "Nmap scan report for 192.168.1.13\n" +
+      "Host is up (0.40s latency).\n" +
+      "MAC Address: 54:27:1E:F9:00:E0 (AzureWave Technology)\n" +
+      "Nmap scan report for 192.168.1.148\n" +
+      "Host is up (1.5s latency).\n" +
+      "MAC Address: EE:08:6B:F8:F7:70 (Unknown)\n" +
+      "Nmap scan report for 192.168.1.4\n" +
+      "Host is up.\n" +
+      "Nmap done: 256 IP addresses (9 hosts up) scanned in 34.77 seconds";
+
+    let regex = new RegExp(this.ipv4Regex.source + '|' + this.macRegex.source + '|' + this.deviceNameRegex.source, 'g');
+    let hosts = result.match(regex);
+
+    console.log(result);
+    console.log(regex.source);
+    console.log(this.ipv4Regex.source);
+    console.log(hosts);
   }
 
   public scanDevice() {

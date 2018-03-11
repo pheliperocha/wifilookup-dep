@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ipcRenderer, remote } from 'electron';
 import * as childProcess from 'child_process';
+import { Device } from '../models/device';
 
 @Injectable()
 export class ElectronService {
@@ -12,10 +13,9 @@ export class ElectronService {
   defaultIPGateway: string;
   private nmap: any;
 
+  public devices: Device[];
+
   public gatewayRegex = /(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/g;
-  public ipv4Regex = new RegExp(/([0-9]{1,3}\.){3}[0-9]{1,3}(([0-9]|[1-2][0-9]|3[0-2]))?/g);
-  public macRegex = new RegExp(/([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})/g);
-  public deviceNameRegex = new RegExp(/\([a-zA-Z][\S]+(([\s])|([a-zA-Z]+)|\.|,)+\)/g);
 
   constructor() {
     if (this.isElectron()) {
@@ -23,8 +23,8 @@ export class ElectronService {
       this.childProcess = window.require('child_process');
       this.remote = window.require('electron').remote;
       this.nmap = this.remote.require('node-nmap');
-
       this.getDefaultIPGateway();
+      this.scanNetwork();
     }
   }
 
@@ -44,6 +44,24 @@ export class ElectronService {
 
     var quickscan = new this.nmap.QuickScan(this.defaultIPGateway + '/24');
 
+    quickscan.on('complete', (data) => {
+      this.devices = data;
+
+      console.log(this.devices);
+    });
+
+    quickscan.on('error', function(error) {
+      console.log(error);
+    });
+
+    quickscan.startScan();
+  }
+
+  public scanDevice(device: Device) {
+    console.log('Starting Scan');
+
+    var quickscan = new this.nmap.OsAndPortScan(device.ip);
+
     quickscan.on('complete', function(data) {
       console.log(data);
     });
@@ -55,24 +73,20 @@ export class ElectronService {
     quickscan.startScan();
   }
 
-  public scanDevice(ip: string) {
-    this.nmap = this.childProcess.spawn('nmap', ['-sP', ip]);
-    this.nmap.stdout.setEncoding('utf8');
+  public verifyDevice(device: Device) {
+    console.log('Starting Scan');
 
-    this.nmap.stdout.on('data', function (data) {
-      console.log('data =======');
+    var quickscan = new this.nmap.QuickScan(device.ip);
+
+    quickscan.on('complete', function(data) {
       console.log(data);
     });
 
-    this.nmap.stdout.on('close', function (data) {
-      console.log('Exit =======');
-      console.log(data);
+    quickscan.on('error', function(error) {
+      console.log(error);
     });
 
-    this.nmap.stdout.on('error', function (data) {
-      console.log('Error =======');
-      console.log(data);
-    });
+    quickscan.startScan();
   }
 
 }

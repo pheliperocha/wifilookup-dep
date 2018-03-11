@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   test() {
-    this.electronService.scanNetwork();
+    this.electronService.scanDevice(this.electronService.devices[3]);
   }
 
 }

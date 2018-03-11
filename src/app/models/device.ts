@@ -1,5 +1,7 @@
-export interface Devices {
+export interface Device {
   ip: string,
   mac?: string,
-  name?: string
+  hostname?: string,
+  osNmap?: string,
+  vendor?: string
 }

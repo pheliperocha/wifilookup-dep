@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ipcRenderer } from 'electron';
 import * as childProcess from 'child_process';
 import { ChildProcess } from 'child_process';
+import { Devices } from '../models/device';
 
 @Injectable()
 export class ElectronService {
@@ -11,6 +12,7 @@ export class ElectronService {
   childProcess: typeof childProcess;
   defaultIPGateway: string;
   private nmap: ChildProcess;
+  public devices: Devices[] = [];
 
   public gatewayRegex = /(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/g;
   public ipv4Regex = new RegExp(/([0-9]{1,3}\.){3}[0-9]{1,3}(([0-9]|[1-2][0-9]|3[0-2]))?/g);
@@ -86,13 +88,20 @@ export class ElectronService {
       "Host is up.\n" +
       "Nmap done: 256 IP addresses (9 hosts up) scanned in 34.77 seconds";
 
-    let regex = new RegExp(this.ipv4Regex.source + '|' + this.macRegex.source + '|' + this.deviceNameRegex.source, 'g');
-    let hosts = result.match(regex);
+    let hosts = result.match(this.ipv4Regex);
+    let mac = result.match(this.macRegex);
+    let name = result.match(this.deviceNameRegex);
+
+    hosts.forEach((value, index) => {
+      this.devices.push({
+        ip: value,
+        mac: mac[index],
+        name: name[index]
+      })
+    });
 
     console.log(result);
-    console.log(regex.source);
-    console.log(this.ipv4Regex.source);
-    console.log(hosts);
+    console.log(this.devices);
   }
 
   public scanDevice() {

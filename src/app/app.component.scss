@@ -1,0 +1,41 @@
+header {
+  background: #171515;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-app-region: drag;
+
+  .icon {
+    margin-left: 12px;
+    margin-top: 2px;
+
+    img {
+      width: 100%
+    }
+  }
+
+  .btn {
+    padding: 14px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+
+    svg {
+      width: 18px;
+
+      &.minimize {
+        transform: rotate(45deg);
+      }
+    }
+
+    &:hover {
+      background: rgba(0,0,0,.5);
+    }
+  }
+}
+
+.container {
+  background: url('../assets/background.jpg') no-repeat center fixed;
+  -webkit-background-size: cover;
+  background-size: cover;
+  color: #ddd;
+  padding: 32px;
+}

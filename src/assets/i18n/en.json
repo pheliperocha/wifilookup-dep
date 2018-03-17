@@ -1,7 +1,10 @@
 {
   "PAGES": {
-      "HOME": {
-          "TITLE": "WifiLookup works!"
-      }
+    "HOME": {
+      "TITLE": "WifiLookup works!"
+    },
+    "ABOUT": {
+      "TITLE": "About WifiLookup!"
+    }
   }
 }

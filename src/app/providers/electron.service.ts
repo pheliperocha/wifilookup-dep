@@ -24,7 +24,7 @@ export class ElectronService {
       this.remote = window.require('electron').remote;
       this.nmap = this.remote.require('node-nmap');
       this.getDefaultIPGateway();
-      this.scanNetwork();
+      // this.scanNetwork();
     }
   }
 

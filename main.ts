@@ -9,7 +9,8 @@ const Menu = electron.Menu;
 
 let networkWin: BrowserWindow,
   serve: boolean,
-  tray: Tray = null;
+  tray: Tray = null,
+  isQuiting: boolean = false;
 
 serve = args.some(val => val === '--serve');
 
@@ -33,16 +34,27 @@ const menuTemplate = [
   },
   {
     label: 'Exit',
-    click: () => { app.exit() }
+    click: () => { isQuiting = true; app.quit(); }
   }
 ];
 
 try {
   app.on('ready', () => {
-    this.tray = new Tray(iconPath);
+    tray = new Tray(iconPath);
+    tray.setToolTip('WifiLookup');
 
     const ctxMenu = Menu.buildFromTemplate(menuTemplate);
-    this.tray.setContextMenu(ctxMenu);
+    tray.setContextMenu(ctxMenu);
+
+    tray.on('click', () => {
+      networkWin.isVisible() ? networkWin.hide() : networkWin.show();
+    });
+
+    tray.displayBalloon({
+      icon: './src/favicon.png',
+      title: 'WifiLookup',
+      content: 'Scanning networking...'
+    });
 
     createNetworkWindow();
   });
@@ -52,16 +64,13 @@ try {
 }
 
 function createNetworkWindow() {
-  const electronScreen = screen;
-  const size = electronScreen.getPrimaryDisplay().workAreaSize;
-
   networkWin = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height,
+    width: 900,
+    height: 600,
     show: false,
-    center: true
+    center: true,
+    frame: false,
+    alwaysOnTop: true
   });
 
   if (serve) {
@@ -76,8 +85,18 @@ function createNetworkWindow() {
   }
 
   networkWin.once('ready-to-show', () => {
-    if (process.env.DEBUG) {
+    networkWin.show();
+
+    if (process.env.ENV !== 'prod' && process.env.DEBUG === 'true') {
       networkWin.webContents.openDevTools();
     }
+  });
+
+  networkWin.on('close', function (event) {
+    if(!isQuiting) {
+      event.preventDefault();
+      networkWin.hide();
+    }
+    return false;
   });
 }

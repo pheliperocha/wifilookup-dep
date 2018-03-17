@@ -62,3 +62,9 @@ You can desactivate "Developer Tools" by commenting `win.webContents.openDevTool
 
 Maybe you want to execute the application in the browser (WITHOUT HOT RELOAD ACTUALLY...) ? You can do it with `npm run ng:serve`.  
 Note that you can't use Electron or NodeJS native libraries in this case. Please check `providers/electron.service.ts` to watch how conditional import of electron/Native libraries is done.
+
+## Thanks
+
+* [Maxime GRIS](https://github.com/maximegris) for ultra-fast bootstrapping with Angular 5 and Electron;
+
+* [Icons8](https://icons8.com/) for amazing Nolan style icon pack.

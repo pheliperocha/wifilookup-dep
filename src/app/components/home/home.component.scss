@@ -5,8 +5,12 @@ header {
   user-select: none;
 
   .icon {
-    background: rgba(0,0,0,.5);
-    padding: 14px;
+    margin-left: 12px;
+    margin-top: 2px;
+
+    img {
+      width: 100%
+    }
   }
 
   .bar {
@@ -16,6 +20,14 @@ header {
   .btn {
     padding: 14px;
     cursor: pointer;
+
+    svg {
+      width: 18px;
+
+      &.minimize {
+        transform: rotate(45deg);
+      }
+    }
 
     &:hover {
       background: rgba(0,0,0,.5);

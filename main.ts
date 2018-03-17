@@ -4,7 +4,8 @@ import * as url from 'url';
 
 const electron = require('electron');
 const args = process.argv.slice(1);
-const iconPath = path.join(__dirname, 'src/favicon.png');
+const iconPath16 = path.join(__dirname, 'src/assets/icon/icons8-wi-fi-16.png');
+const iconPath64 = path.join(__dirname, 'src/assets/icon/icons8-wi-fi-64.png');
 const Menu = electron.Menu;
 
 let networkWin: BrowserWindow,
@@ -43,7 +44,7 @@ const menuTemplate = [
 
 try {
   app.on('ready', () => {
-    tray = new Tray(iconPath);
+    tray = new Tray(iconPath16);
     tray.setToolTip('WifiLookup');
 
     const ctxMenu = Menu.buildFromTemplate(menuTemplate);
@@ -54,7 +55,7 @@ try {
     });
 
     tray.displayBalloon({
-      icon: './src/favicon.png',
+      icon: iconPath64,
       title: 'WifiLookup',
       content: 'Scanning networking...'
     });
@@ -74,6 +75,7 @@ try {
 
 function createNetworkWindow() {
   networkWin = new BrowserWindow({
+    icon: iconPath64,
     width: 900,
     height: 600,
     show: false,

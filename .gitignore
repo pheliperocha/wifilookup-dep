@@ -6,6 +6,7 @@
 /out-tsc
 /app-builds
 main.js
+src/app/app.config.ts
 
 # dependencies
 /node_modules

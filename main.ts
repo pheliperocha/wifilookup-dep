@@ -34,7 +34,10 @@ const menuTemplate = [
   },
   {
     label: 'Exit',
-    click: () => { isQuiting = true; app.quit(); }
+    click: () => {
+      isQuiting = true;
+      app.quit();
+    }
   }
 ];
 
@@ -58,8 +61,14 @@ try {
 
     createNetworkWindow();
   });
+
+  app.on('before-quit', () => {
+    networkWin.removeAllListeners('close');
+    networkWin.close();
+    networkWin = null;
+  });
 } catch(err) {
-  console.trace('Problem on Ready');
+  console.trace('Problem on listening app event');
   console.error(err);
 }
 

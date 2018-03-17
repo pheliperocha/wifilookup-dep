@@ -1,0 +1,29 @@
+.about {
+  font-size: 12px;
+
+  .logo {
+    float: left;
+    margin-right: 14px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0px;
+    word-break: break-all;
+  }
+
+  .info {
+    padding-top: 14px;
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, #425cff, #8b3dff, #c523ff);
+  }
+
+  a {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

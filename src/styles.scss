@@ -29,4 +29,10 @@ html, body {
   padding: 0;
   height: 100%;
   font-family: 'Montserrat', sans-serif !important;
+  letter-spacing: .7px;
+  word-spacing: 3px;
+}
+
+a:active, a {
+  color: #ddd;
 }

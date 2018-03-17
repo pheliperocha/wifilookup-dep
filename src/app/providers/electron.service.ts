@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer, remote, shell } from 'electron';
 import * as childProcess from 'child_process';
 import { Device } from '../models/device';
 
@@ -10,6 +10,7 @@ export class ElectronService {
   ipcRenderer: typeof ipcRenderer;
   childProcess: typeof childProcess;
   remote: typeof remote;
+  shell: typeof shell;
   defaultIPGateway: string;
   private nmap: any;
 
@@ -22,6 +23,7 @@ export class ElectronService {
       this.ipcRenderer = window.require('electron').ipcRenderer;
       this.childProcess = window.require('child_process');
       this.remote = window.require('electron').remote;
+      this.shell = window.require('electron').shell;
       this.nmap = this.remote.require('node-nmap');
       this.getDefaultIPGateway();
       // this.scanNetwork();
@@ -38,6 +40,10 @@ export class ElectronService {
 
   public minimizeWindow() {
     this.remote.getCurrentWindow().minimize();
+  }
+
+  public openExternal(url: string) {
+    this.shell.openExternal(url);
   }
 
   private getDefaultIPGateway() {

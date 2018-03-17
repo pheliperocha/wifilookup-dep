@@ -1,3 +1,35 @@
-<h1 class="title">
-  {{ 'PAGES.ABOUT.TITLE' | translate }}
-</h1>
+<div class="about">
+  <div class="logo">
+    <img src="assets/icon/icons8-wi-fi-64.png" />
+  </div>
+
+  <ul class="info">
+    <li>Versão: 1.0.0-alpha</li>
+    <li>Data: 2018-03-17</li>
+    <li>Licensa: MIT</li>
+  </ul>
+
+  <hr />
+
+  <ul>
+    <li>Author: Phelipe Rocha</li>
+    <li>Site: <a (click)="openExternal('https://pheliperocha.com.br')">https://pheliperocha.com.br</a></li>
+    <li>Email: <a (click)="openExternal('https://pheliperocha.com.br/#contact')">phelipeafonso@gmail.com</a></li>
+  </ul>
+
+  <hr />
+
+  <ul>
+    <li>Github: <a (click)="openExternal('https://github.com/pheliperocha/wifilookup')">https://github.com/pheliperocha/wifilookup</a></li>
+  </ul>
+
+  <p><b>Description:</b><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget finibus lacus, at imperdiet arcu. Quisque nec ipsum commodo, convallis sem nec, viverra est.</p>
+
+  <hr />
+
+  <ul>
+    <li><b>Thanks to:</b></li>
+    <li><a (click)="openExternal('https://github.com/maximegris')">Maxime GRIS</a> for ultra-fast bootstrapping with Angular 5 and Electron;</li>
+    <li><a (click)="openExternal('https://icons8.com/')">Icons8</a> for amazing Nolan style icon pack.</li>
+  </ul>
+</div>

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, Tray } from 'electron';
+import { app, BrowserWindow, Tray } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -9,6 +9,7 @@ const iconPath64 = path.join(__dirname, 'src/assets/icon/icons8-wi-fi-64.png');
 const Menu = electron.Menu;
 
 let networkWin: BrowserWindow,
+  aboutWin: BrowserWindow,
   serve: boolean,
   tray: Tray = null,
   isQuiting: boolean = false;
@@ -31,7 +32,8 @@ const menuTemplate = [
     label: 'Settings'
   },
   {
-    label: 'About'
+    label: 'About',
+    click: () => { aboutWin.show() }
   },
   {
     label: 'Exit',
@@ -61,6 +63,7 @@ try {
     });
 
     createNetworkWindow();
+    createAboutWindow();
   });
 
   app.on('before-quit', () => {
@@ -107,6 +110,38 @@ function createNetworkWindow() {
     if(!isQuiting) {
       event.preventDefault();
       networkWin.hide();
+    }
+    return false;
+  });
+}
+
+function createAboutWindow() {
+  aboutWin = new BrowserWindow({
+    icon: iconPath64,
+    width: 350,
+    height: 514,
+    show: false,
+    center: true,
+    frame: false,
+    resizable: false,
+    alwaysOnTop: true
+  });
+
+  if (serve) {
+    require('electron-reload')(__dirname, {});
+    aboutWin.loadURL('http://localhost:4200/#/about');
+  } else {
+    aboutWin.loadURL(url.format({
+      pathname: path.join(__dirname, 'dist/index.html#/about'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }
+
+  aboutWin.on('close', function (event) {
+    if(!isQuiting) {
+      event.preventDefault();
+      aboutWin.hide();
     }
     return false;
   });

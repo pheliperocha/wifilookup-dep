@@ -26,6 +26,7 @@
     "e2e": "npm-run-all -p pree2e:build pree2e:protractor"
   },
   "dependencies": {
+    "@angular/flex-layout": "^5.0.0-beta.13",
     "node-nmap": "^4.0.0"
   },
   "devDependencies": {

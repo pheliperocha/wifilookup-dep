@@ -33,11 +33,11 @@ export class ElectronService {
   };
 
   public closeWindow() {
-    console.log('Close');
+    this.remote.getCurrentWindow().close();
   }
 
   public minimizeWindow() {
-    console.log('Minimize');
+    this.remote.getCurrentWindow().minimize();
   }
 
   private getDefaultIPGateway() {

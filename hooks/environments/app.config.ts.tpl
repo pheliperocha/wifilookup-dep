@@ -1,6 +1,6 @@
-import { CONF_LOCAL } from '../environments/environment.local';
-import { CONF_DEV } from '../environments/environment.dev';
-import { CONF_PROD } from '../environments/environment.prod';
+import { CONF_LOCAL } from "../../../src/environments/environment.local";
+import { CONF_DEV } from '../../../src/environments/environment.dev';
+import { CONF_PROD } from "../../../src/environments/environment.prod";
 
 const ENV = 'PROFILE';
 

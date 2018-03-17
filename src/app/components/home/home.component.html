@@ -1,5 +1,15 @@
-<div class="container">
-  <h1 class="title" (click)="test()">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
+<div style="height: 100%; width: 100%" fxLayout="column" fxLayoutAlign="none">
+  <header fxLayout="row" fxLayoutAlign="end none" fxFlex="46px">
+    <div class="icon"></div>
+    <div class="bar" fxFlex></div>
+
+    <div class="btn" (click)="minimize()">-</div>
+    <div class="btn" (click)="close()">X</div>
+  </header>
+
+  <section class="container" fxFlex>
+    <h1 class="title">
+      {{ 'PAGES.HOME.TITLE' | translate }}
+    </h1>
+  </section>
 </div>

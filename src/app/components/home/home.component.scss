@@ -1,12 +1,32 @@
-.container {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+header {
+  background: #171515;
+  color: #ddd;
+  -webkit-user-select: none;
+  user-select: none;
 
-  background: url(../../../assets/background.jpg) no-repeat center fixed;
-  -webkit-background-size: cover; /* pour anciens Chrome et Safari */
-  background-size: cover; /* version standardisée */
+  .icon {
+    background: rgba(0,0,0,.5);
+    padding: 14px;
+  }
+
+  .bar {
+    -webkit-app-region: drag;
+  }
+
+  .btn {
+    padding: 14px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(0,0,0,.5);
+    }
+  }
+}
+
+.container {
+  background: url('../../../assets/background.jpg') no-repeat center fixed;
+  -webkit-background-size: cover;
+  background-size: cover;
 
   .title {
     color: white;

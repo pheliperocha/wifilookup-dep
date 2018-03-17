@@ -32,6 +32,14 @@ export class ElectronService {
     return window && window.process && window.process.type;
   };
 
+  public closeWindow() {
+    console.log('Close');
+  }
+
+  public minimizeWindow() {
+    console.log('Minimize');
+  }
+
   private getDefaultIPGateway() {
     let data = this.childProcess.execSync('WMIC NICConfig where IPEnabled="True" get DefaultIPGateway /value | find "I"').toString();
 

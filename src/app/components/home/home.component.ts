@@ -9,12 +9,16 @@ import { ElectronService } from '../../providers/electron.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public electronService: ElectronService) { }
+  constructor(private electronService: ElectronService) { }
 
   ngOnInit() {}
 
-  test() {
-    this.electronService.scanDevice(this.electronService.devices[3]);
+  close() {
+    this.electronService.closeWindow();
+  }
+
+  minimize() {
+    this.electronService.minimizeWindow();
   }
 
 }

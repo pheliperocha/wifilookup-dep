@@ -5,5 +5,6 @@ export interface Host {
   osNmap?: string,
   vendor?: string,
   status?: ('online' | 'offline' | 'inactive'),
+  try?: number,
   scanning?: boolean
 }

@@ -4,6 +4,9 @@
 
 <div class="item" *ngFor="let host of hosts">
   <div class="info" *ngIf="host.scanning">-></div>
+  <div class="info" *ngIf="host.status == 'online'">✔️</div>
+  <div class="info" *ngIf="host.status == 'offline'">❌</div>
+  <div class="info" *ngIf="host.status == 'inactive'">⚪</div>
   <div class="info">IP: {{ host.ip }}</div>
   <div class="info">MAC: {{ host.mac }}</div>
   <div class="info">OS: {{ host.osNmap }}</div>

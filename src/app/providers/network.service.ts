@@ -3,6 +3,7 @@ import { ElectronService } from './electron.service';
 import { Host } from '../models/host';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { HostsMock } from '../mocks/hostsMock';
 
 @Injectable()
 export class NetworkService {
@@ -41,7 +42,7 @@ export class NetworkService {
 
   public wifilookup() {
     console.log(1);
-    this.scanNetwork((err) => {
+    this.scanNetworkMock((err) => {
       if (err) {
         console.error(err);
         return err;
@@ -55,6 +56,19 @@ export class NetworkService {
         }
       });
     });
+  }
+
+  public scanNetworkMock(_cb) {
+    if (this.isScanning) {
+      return false;
+    }
+
+    this.isScanning = true;
+    console.log('Starting ScanNetwork');
+
+    this.setHosts(HostsMock);
+    this.isScanning = false;
+    return _cb(null, HostsMock);
   }
 
   public scanNetwork(_cb) {
@@ -134,11 +148,15 @@ export class NetworkService {
       console.log(8, data[0]);
       if (data[0] && data[0].ip === host.ip) {
         this._hosts[hostIndex] = data[0];
-        this._hosts[hostIndex].scanning = false;
-        this.hostsSubject.next(this._hosts);
+        this._hosts[hostIndex].status = 'online';
+      } else {
+        this._hosts[hostIndex].status = 'inactive';
       }
 
+      this._hosts[hostIndex].scanning = false;
       this.isScanning = false;
+      this.hostsSubject.next(this._hosts);
+
       return _cb(null, data);
     });
 

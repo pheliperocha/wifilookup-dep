@@ -41,14 +41,12 @@ export class NetworkService {
   }
 
   public wifilookup() {
-    console.log(1);
     this.scanNetworkMock((err) => {
       if (err) {
         console.error(err);
         return err;
       }
 
-      console.log(2);
       this.deepScanNetwork((err) => {
         if (err) {
           console.error(err);
@@ -96,28 +94,21 @@ export class NetworkService {
   }
 
   public deepScanNetwork(_cb) {
-    console.log(3);
-
     if (this.isScanning) {
       return false;
     }
 
-    console.log(this.hostIndexScanning, this._hosts.length);
     if (this.hostIndexScanning == this._hosts.length) {
       this.hostIndexScanning = 0;
       return _cb();
     }
 
-    console.log(4);
     this.scanHost(this._hosts[this.hostIndexScanning], (err, data) => {
-      console.log(10);
       if (err) {
         console.error(err);
         return false;
       }
 
-      console.log(this.hostIndexScanning);
-      console.log(11);
       this.hostIndexScanning++;
       this.deepScanNetwork(_cb);
     });
@@ -126,7 +117,6 @@ export class NetworkService {
   }
 
   public scanHost(host: Host, _cb) {
-    console.log(5);
     if (this.isScanning) {
       return false;
     }
@@ -141,12 +131,9 @@ export class NetworkService {
     this._hosts[hostIndex].scanning = true;
     this.hostsSubject.next(this._hosts);
 
-    console.log(6);
     let osAndPortScan = new this.electronService.nmap.OsAndPortScan(host.ip);
 
     osAndPortScan.on('complete', (data: Host) => {
-      console.log(8, data[0]);
-
       if (!data[0]) {
         this._hosts[hostIndex].status = 'inactive';
         this._hosts[hostIndex].scanning = false;
@@ -171,14 +158,12 @@ export class NetworkService {
     });
 
     osAndPortScan.on('error', function(error) {
-      console.log(9);
       this.isScanning = false;
       this._hosts[hostIndex].scanning = false;
       this.hostsSubject.next(this._hosts);
       return _cb(error);
     });
 
-    console.log(7);
     osAndPortScan.startScan();
   }
 
@@ -197,7 +182,6 @@ export class NetworkService {
 
     quickscan.on('complete', (data) => {
       if (!data[0]) {
-
         if (this._hosts[hostIndex].try > 5) {
           this._hosts[hostIndex].status = 'offline';
           this._hosts[hostIndex].scanning = false;

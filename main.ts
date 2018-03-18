@@ -4,7 +4,7 @@ import * as url from 'url';
 
 const electron = require('electron');
 const args = process.argv.slice(1);
-const iconPath16 = path.join(__dirname, 'src/assets/icon/icons8-wi-fi-16.png');
+const iconPath16 = path.join(__dirname, 'src/assets/icon/icons8-wi-fi-filled-16.png');
 const iconPath64 = path.join(__dirname, 'src/assets/icon/icons8-wi-fi-64.png');
 const Menu = electron.Menu;
 

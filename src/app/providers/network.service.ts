@@ -41,7 +41,7 @@ export class NetworkService {
   }
 
   public wifilookup() {
-    this.scanNetworkMock((err) => {
+    this.scanNetwork((err) => {
       if (err) {
         console.error(err);
         return err;
@@ -52,6 +52,8 @@ export class NetworkService {
           console.error(err);
           return err;
         }
+
+        setInterval(() => { this.wifilookup(); }, 300000);
       });
     });
   }

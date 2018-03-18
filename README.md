@@ -1,5 +1,7 @@
 ## WifiLookup 1.0.0-alpha
 
+> Desktop application built with ElectronJS and Angular 5 to lookups and registre devices in a LAN Network. It use Nmap to perform a DHCP server per scope based detection, that scan all getway range and return all host connected in the LAN.
+
 ![Wifi Lookup](/src/assets/icon/icons8-wi-fi-64.png)
 
 Currently runs with:
@@ -8,9 +10,12 @@ Currently runs with:
 - Angular-CLI v1.7.1
 - Electron v1.8.2
 - Electron Builder v20.0.5
+- Nmap v7.60
 
 
 ## Getting Started
+
+It use [Nmap](https://nmap.org/) to perform network scanning, so you need have it installed in your computer.
 
 Clone this repository locally:
 

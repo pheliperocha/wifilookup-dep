@@ -31,6 +31,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  scanHost(host: Host) {
+    console.log('Loading start');
+    this.networkService.scanHost(host, (err, data) => {
+      console.log('Loading end');
+    });
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

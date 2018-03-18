@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ElectronService } from './electron.service';
 import { Host } from '../models/host';
-import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class NetworkService {
 
   public defaultIPGateway: string;
-  public hosts = new Subject<Host[]>();
+  private _hosts: Host[] = null;
+  public hostsSubject = new BehaviorSubject<Host[]>(this._hosts);
 
+  private isScanning: boolean = false;
   private gatewayRegex = /(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/g;
 
   constructor(private electronService: ElectronService) {
@@ -18,12 +20,13 @@ export class NetworkService {
     }
   }
 
-  setHost(hosts: Host[]) {
-    this.hosts.next(hosts);
+  setHosts(hosts: Host[]) {
+    this._hosts = hosts;
+    this.hostsSubject.next(hosts);
   }
 
   getHosts(): Observable<Host[]> {
-    return this.hosts.asObservable();
+    return this.hostsSubject.asObservable();
   }
 
   private getDefaultIPGateway() {
@@ -36,36 +39,59 @@ export class NetworkService {
   }
 
   public scanNetwork(_cb) {
+    if (this.isScanning) {
+      return false;
+    }
+
+    this.isScanning = true;
     console.log('Starting ScanNetwork');
 
     var quickscan = new this.electronService.nmap.QuickScan(this.defaultIPGateway + '/24');
 
     quickscan.on('complete', (data) => {
-      this.setHost(data);
+      this.setHosts(data);
+      this.isScanning = false;
       return _cb(null, data);
     });
 
     quickscan.on('error', (error)  => {
+      this.isScanning = false;
       return _cb(error);
     });
 
     quickscan.startScan();
   }
 
-  public scanHost(host: Host) {
+  public scanHost(host: Host, _cb) {
+    if (this.isScanning) {
+      return false;
+    }
+
+    this.isScanning = true;
     console.log('Starting ScanHost');
 
-    var quickscan = new this.electronService.nmap.OsAndPortScan(host.ip);
+    var osAndPortScan = new this.electronService.nmap.OsAndPortScan(host.ip);
 
-    quickscan.on('complete', function(data) {
-      console.log(data);
+    osAndPortScan.on('complete', (data: Host) => {
+      let hostIndex = this._hosts.findIndex((value) => {
+        return (value.ip === host.ip);
+      });
+
+      if (data[0].ip === host.ip) {
+        this._hosts[hostIndex] = data[0];
+        this.hostsSubject.next(this._hosts);
+      }
+
+      this.isScanning = false;
+      return _cb(null, data);
     });
 
-    quickscan.on('error', function(error) {
-      console.log(error);
+    osAndPortScan.on('error', function(error) {
+      this.isScanning = false;
+      return _cb(error);
     });
 
-    quickscan.startScan();
+    osAndPortScan.startScan();
   }
 
   public verifyHost(host: Host) {

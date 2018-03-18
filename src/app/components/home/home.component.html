@@ -4,6 +4,6 @@
 
 <ul>
   <li *ngFor="let host of hosts">
-    {{ host.ip }}
+    <button (click)="scanHost(host)">{{ host.ip }}</button>
   </li>
 </ul>

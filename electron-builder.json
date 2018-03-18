@@ -1,13 +1,18 @@
 {
-  "productName": "angular-electron",
+  "productName": "WifiLookup",
+  "appId": "com.pheliperocha.wifilookup",
+  "copyright": "Copyright © 2018 Phelipe Rocha",
   "directories": {
     "output": "app-builds"
   },
   "win": {
-    "icon": "dist",
+    "icon": "dist/assets/icon/icons8-wi-fi-256.png",
     "target": [
       "portable"
     ]
+  },
+  "portable": {
+    "requestExecutionLevel": "admin"
   },
   "mac": {
     "icon": "dist",

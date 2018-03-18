@@ -1,4 +1,4 @@
-## WifiLookup
+## WifiLookup 1.0.0-alpha
 
 ![Wifi Lookup](/src/assets/icon/icons8-wi-fi-64.png)
 

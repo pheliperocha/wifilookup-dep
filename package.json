@@ -2,9 +2,15 @@
   "name": "WifiLookup",
   "version": "1.0.0-alpha",
   "description": "",
+  "homepage": "https://github.com/pheliperocha/wifilookup",
+  "license": "MIT",
   "author": {
     "name": "Phelipe Rocha",
     "email": "phelipeafonso@gmail.com"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/npm/npm.git"
   },
   "main": "main.js",
   "scripts": {

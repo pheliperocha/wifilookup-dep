@@ -134,7 +134,8 @@ function createAboutWindow() {
     aboutWin.loadURL('http://localhost:4200/#/about');
   } else {
     aboutWin.loadURL(url.format({
-      pathname: path.join(__dirname, 'dist/index.html#/about'),
+      pathname: path.join(__dirname, 'dist/index.html'),
+      hash: 'about',
       protocol: 'file:',
       slashes: true
     }));

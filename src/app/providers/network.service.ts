@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ElectronService } from './electron.service';
-import { Device } from '../models/device';
+import { Host } from '../models/host';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 export class NetworkService {
 
   public defaultIPGateway: string;
-  public devices = new Subject<Device[]>();
+  public hosts = new Subject<Host[]>();
 
   private gatewayRegex = /(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/g;
 
@@ -18,12 +18,12 @@ export class NetworkService {
     }
   }
 
-  setDevices(devices: Device[]) {
-    this.devices.next(devices);
+  setHost(hosts: Host[]) {
+    this.hosts.next(hosts);
   }
 
-  getDevices(): Observable<Device[]> {
-    return this.devices.asObservable();
+  getHosts(): Observable<Host[]> {
+    return this.hosts.asObservable();
   }
 
   private getDefaultIPGateway() {
@@ -36,12 +36,12 @@ export class NetworkService {
   }
 
   public scanNetwork(_cb) {
-    console.log('Starting Scan');
+    console.log('Starting ScanNetwork');
 
     var quickscan = new this.electronService.nmap.QuickScan(this.defaultIPGateway + '/24');
 
     quickscan.on('complete', (data) => {
-      this.setDevices(data);
+      this.setHost(data);
       return _cb(null, data);
     });
 
@@ -52,10 +52,10 @@ export class NetworkService {
     quickscan.startScan();
   }
 
-  public scanDevice(device: Device) {
-    console.log('Starting Scan');
+  public scanHost(host: Host) {
+    console.log('Starting ScanHost');
 
-    var quickscan = new this.electronService.nmap.OsAndPortScan(device.ip);
+    var quickscan = new this.electronService.nmap.OsAndPortScan(host.ip);
 
     quickscan.on('complete', function(data) {
       console.log(data);
@@ -68,10 +68,10 @@ export class NetworkService {
     quickscan.startScan();
   }
 
-  public verifyDevice(device: Device) {
+  public verifyHost(host: Host) {
     console.log('Starting Scan');
 
-    var quickscan = new this.electronService.nmap.QuickScan(device.ip);
+    var quickscan = new this.electronService.nmap.QuickScan(host.ip);
 
     quickscan.on('complete', function(data) {
       console.log(data);

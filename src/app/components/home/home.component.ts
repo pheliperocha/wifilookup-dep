@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { NetworkService } from '../../providers/network.service';
-import { Device } from '../../models/device';
+import { Host } from '../../models/host';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
@@ -10,16 +10,16 @@ import 'rxjs/add/operator/takeUntil';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  public devices: Device[];
+  public hosts: Host[];
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
     public networkService: NetworkService,
     private _ngZone: NgZone
   ) {
-    this.networkService.getDevices().takeUntil(this.ngUnsubscribe).subscribe((devices: Device[]) => {
+    this.networkService.getHosts().takeUntil(this.ngUnsubscribe).subscribe((hosts: Host[]) => {
       this._ngZone.run(() => {
-        this.devices = devices;
+        this.hosts = hosts;
       });
     });
   }

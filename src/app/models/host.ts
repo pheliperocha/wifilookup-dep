@@ -1,4 +1,4 @@
-export interface Device {
+export interface Host {
   ip: string,
   mac?: string,
   hostname?: string,

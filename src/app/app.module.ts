@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AboutComponent } from './components/about/about.component';
+import { NetworkService } from './providers/network.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -48,7 +49,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     FlexLayoutModule
   ],
-  providers: [ElectronService],
+  providers: [
+    ElectronService,
+    NetworkService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

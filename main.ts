@@ -100,9 +100,11 @@ function createNetworkWindow() {
 
   networkWin.once('ready-to-show', () => {
     networkWin.show();
+  });
 
+  networkWin.on('show', () => {
     if (process.env.ENV !== 'prod' && process.env.DEBUG === 'true') {
-      networkWin.webContents.openDevTools();
+      networkWin.webContents.openDevTools({mode: 'detach'});
     }
   });
 
@@ -137,6 +139,12 @@ function createAboutWindow() {
       slashes: true
     }));
   }
+
+  aboutWin.on('show', () => {
+    if (process.env.ENV !== 'prod' && process.env.DEBUG === 'true') {
+      aboutWin.webContents.openDevTools({mode: 'detach'});
+    }
+  });
 
   aboutWin.on('close', function (event) {
     if(!isQuiting) {

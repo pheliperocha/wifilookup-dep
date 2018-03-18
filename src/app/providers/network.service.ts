@@ -12,6 +12,7 @@ export class NetworkService {
   public hostsSubject = new BehaviorSubject<Host[]>(this._hosts);
 
   private isScanning: boolean = false;
+  private hostIndexScanning: number = 0;
   private gatewayRegex = /(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/g;
 
   constructor(private electronService: ElectronService) {
@@ -38,6 +39,24 @@ export class NetworkService {
     this.defaultIPGateway = ip[0];
   }
 
+  public wifilookup() {
+    console.log(1);
+    this.scanNetwork((err) => {
+      if (err) {
+        console.error(err);
+        return err;
+      }
+
+      console.log(2);
+      this.deepScanNetwork((err) => {
+        if (err) {
+          console.error(err);
+          return err;
+        }
+      });
+    });
+  }
+
   public scanNetwork(_cb) {
     if (this.isScanning) {
       return false;
@@ -62,7 +81,38 @@ export class NetworkService {
     quickscan.startScan();
   }
 
+  public deepScanNetwork(_cb) {
+    console.log(3);
+
+    if (this.isScanning) {
+      return false;
+    }
+
+    console.log(this.hostIndexScanning, this._hosts.length);
+    if (this.hostIndexScanning == this._hosts.length) {
+      this.hostIndexScanning = 0;
+      return _cb();
+    }
+
+    console.log(4);
+    this.scanHost(this._hosts[this.hostIndexScanning], (err, data) => {
+      console.log(10);
+      if (err) {
+        console.error(err);
+        return false;
+      }
+
+      console.log(this.hostIndexScanning);
+      console.log(11);
+      this.hostIndexScanning++;
+      this.deepScanNetwork(_cb);
+    });
+
+    return _cb(null);
+  }
+
   public scanHost(host: Host, _cb) {
+    console.log(5);
     if (this.isScanning) {
       return false;
     }
@@ -70,15 +120,21 @@ export class NetworkService {
     this.isScanning = true;
     console.log('Starting ScanHost');
 
-    var osAndPortScan = new this.electronService.nmap.OsAndPortScan(host.ip);
+    let hostIndex = this._hosts.findIndex((value) => {
+      return (value.ip === host.ip);
+    });
+
+    this._hosts[hostIndex].scanning = true;
+    this.hostsSubject.next(this._hosts);
+
+    console.log(6);
+    let osAndPortScan = new this.electronService.nmap.OsAndPortScan(host.ip);
 
     osAndPortScan.on('complete', (data: Host) => {
-      let hostIndex = this._hosts.findIndex((value) => {
-        return (value.ip === host.ip);
-      });
-
-      if (data[0].ip === host.ip) {
+      console.log(8, data[0]);
+      if (data[0] && data[0].ip === host.ip) {
         this._hosts[hostIndex] = data[0];
+        this._hosts[hostIndex].scanning = false;
         this.hostsSubject.next(this._hosts);
       }
 
@@ -87,10 +143,13 @@ export class NetworkService {
     });
 
     osAndPortScan.on('error', function(error) {
+      console.log(9);
       this.isScanning = false;
+      this._hosts[hostIndex].scanning = false;
       return _cb(error);
     });
 
+    console.log(7);
     osAndPortScan.startScan();
   }
 

@@ -25,10 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('Loading start');
-    this.networkService.scanNetwork((err, data) => {
-      console.log('Loading end');
-    });
+    this.networkService.wifilookup();
   }
 
   scanHost(host: Host) {

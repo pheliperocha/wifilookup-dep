@@ -2,8 +2,12 @@
   {{ 'PAGES.HOME.TITLE' | translate }}
 </h1>
 
-<ul>
-  <li *ngFor="let host of hosts">
-    <button (click)="scanHost(host)">{{ host.ip }}</button>
-  </li>
-</ul>
+<div class="item" *ngFor="let host of hosts">
+  <div class="info" *ngIf="host.scanning">-></div>
+  <div class="info">IP: {{ host.ip }}</div>
+  <div class="info">MAC: {{ host.mac }}</div>
+  <div class="info">OS: {{ host.osNmap }}</div>
+  <div class="info">HOSTNAME: {{ host.hostname }}1</div>
+  <div class="info">VENDOR: {{ host.vendor }}</div>
+  <div style="clear: both;"></div>
+</div>

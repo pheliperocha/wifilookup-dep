@@ -3,5 +3,6 @@ export interface Host {
   mac?: string,
   hostname?: string,
   osNmap?: string,
-  vendor?: string
+  vendor?: string,
+  scanning?: boolean
 }

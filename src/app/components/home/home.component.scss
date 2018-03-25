@@ -2,11 +2,68 @@
   font-size: 12px;
   background: rgba(0,0,0,.5);
   padding: 10px;
-  margin-bottom: 3px;
+  border-radius: 4px;
+  margin: 0px auto 12px auto;
+  width: 400px;
 
-  .info {
+  .icon {
     float: left;
-    margin-left: 12px;
-    text-align: center;
+    position: relative;
+
+    img {
+      background: #231f20;
+      padding: 6px;
+      border-radius: 999px;
+      margin-right: 12px;
+      width: 64px;
+      height: 64px;
+    }
+
+    .status {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      position: absolute;
+      bottom: 8px;
+      right: 16px;
+      border: 2px solid rgba(0, 0, 0, 0.5);
+
+      &.online {
+        background: #0f0;
+      }
+
+      &.offline {
+        background: #f00;
+      }
+
+      &.inactive {
+        background: #fe0;
+      }
+    }
+  }
+
+  .content {
+    margin-top: 6px;
+    font-size: 10px;
+
+    .name {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 4px;
+      height: 18px;
+    }
+
+    .name, .os {
+      overflow: hidden;
+      word-break: break-all;
+    }
+
+    .os {
+      height: 14px;
+
+      &:empty {
+        height: 0px;
+      }
+    }
   }
 }

@@ -19,7 +19,7 @@ export const HostsMock: Host[] = [{
 }, {
   ip: '192.168.1.3',
   mac: 'EA:08:6B:50:BF:7F',
-  hostname: '',
+  hostname: 'ZTE Modem',
   osNmap: 'Linux 2.6.23 - 2.6.38',
   vendor: '',
   status: 'inactive',
@@ -27,9 +27,9 @@ export const HostsMock: Host[] = [{
 }, {
   ip: '192.168.1.7',
   mac: '',
-  hostname: '',
+  hostname: 'Teste 1',
   osNmap: '',
-  vendor: '',
+  vendor: 'Teste 2',
   status: 'offline',
   scanning: false
 }, {

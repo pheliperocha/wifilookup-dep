@@ -11,8 +11,8 @@ export class NetworkService {
   public defaultIPGateway: string;
   private _hosts: Host[] = null;
   public hostsSubject = new BehaviorSubject<Host[]>(this._hosts);
+  public isScanning: boolean = false;
 
-  private isScanning: boolean = false;
   private hostIndexScanning: number = 0;
   private gatewayRegex = /(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/g;
 

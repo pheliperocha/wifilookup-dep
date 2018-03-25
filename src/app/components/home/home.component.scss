@@ -74,4 +74,25 @@
       }
     }
   }
+
+  &.none {
+    text-align: center;
+
+    .icon {
+      float: none;
+      position: relative;
+
+      img {
+        top: 0px;
+        left: 0px;
+        margin-top: -64px;
+      }
+
+      .loading {
+        position: relative;
+        top: 24px;
+        left: 0px;
+      }
+    }
+  }
 }

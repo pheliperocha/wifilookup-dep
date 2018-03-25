@@ -6,7 +6,7 @@ export const HostsMock: Host[] = [{
   hostname: '',
   osNmap: '',
   vendor: '',
-  status: 'inactive',
+  status: 'online',
   scanning: false
 }, {
   ip: '192.168.1.1',
@@ -14,7 +14,7 @@ export const HostsMock: Host[] = [{
   hostname: '',
   osNmap: 'Netopia 2247 ADSL router',
   vendor: 'ZyXEL Communications',
-  status: 'inactive',
+  status: 'online',
   scanning: false
 }, {
   ip: '192.168.1.3',
@@ -30,7 +30,7 @@ export const HostsMock: Host[] = [{
   hostname: '',
   osNmap: '',
   vendor: '',
-  status: 'inactive',
+  status: 'offline',
   scanning: false
 }, {
   ip: '192.168.1.6',
@@ -38,7 +38,7 @@ export const HostsMock: Host[] = [{
   hostname: '',
   osNmap: '',
   vendor: 'Motorola Mobility, a Lenovo Company',
-  status: 'inactive',
+  status: 'online',
   scanning: false
 }];
 

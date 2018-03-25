@@ -58,17 +58,8 @@ export class NetworkService {
     });
   }
 
-  public scanNetworkMock(_cb) {
-    if (this.isScanning) {
-      return false;
-    }
-
-    this.isScanning = true;
-    console.log('Starting ScanNetwork');
-
+  public wifilookupMock() {
     this.setHosts(HostsMock);
-    this.isScanning = false;
-    return _cb(null, HostsMock);
   }
 
   public scanNetwork(_cb) {

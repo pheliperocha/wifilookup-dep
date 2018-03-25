@@ -14,13 +14,14 @@ export class AppComponent {
     private translate: TranslateService
   ) {
     translate.setDefaultLang('pt');
-    console.log('AppConfig', AppConfig);
 
     if (electronService.isElectron()) {
-      console.log('Mode electron');
+      AppConfig.appMode = 'electron';
     } else {
-      console.log('Mode web');
+      AppConfig.appMode = 'web';
     }
+
+    console.log('AppConfig', AppConfig);
   }
 
   close() {

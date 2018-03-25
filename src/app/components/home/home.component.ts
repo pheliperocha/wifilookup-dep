@@ -3,6 +3,7 @@ import { NetworkService } from '../../providers/network.service';
 import { Host } from '../../models/host';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { AppConfig } from '../../app.config';
 
 @Component({
   selector: 'app-home',
@@ -25,14 +26,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.networkService.wifilookup();
-  }
-
-  scanHost(host: Host) {
-    console.log('Loading start');
-    this.networkService.scanHost(host, (err, data) => {
-      console.log('Loading end');
-    });
+    if (AppConfig.appMode === 'electron') {
+      this.networkService.wifilookup();
+    } else {
+      this.networkService.wifilookupMock();
+    }
   }
 
   ngOnDestroy() {

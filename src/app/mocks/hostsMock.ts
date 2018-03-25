@@ -23,7 +23,7 @@ export const HostsMock: Host[] = [{
   osNmap: 'Linux 2.6.23 - 2.6.38',
   vendor: '',
   status: 'inactive',
-  scanning: false
+  scanning: true
 }, {
   ip: '192.168.1.7',
   mac: '',

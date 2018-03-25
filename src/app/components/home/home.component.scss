@@ -19,6 +19,13 @@
       height: 64px;
     }
 
+    .loading {
+      position: absolute;
+      margin-left: -10px;
+      margin-top: -10px;
+      z-index: 1;
+    }
+
     .status {
       width: 10px;
       height: 10px;
@@ -27,6 +34,7 @@
       bottom: 8px;
       right: 16px;
       border: 2px solid rgba(0, 0, 0, 0.5);
+      z-index: 9;
 
       &.online {
         background: #0f0;
